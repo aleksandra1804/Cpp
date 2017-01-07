@@ -11,11 +11,9 @@ Styczen 2017 (c)
 */
 
 #include <iostream>
-#include <algorithm>
+#include <algorithm> // funkcja sortujaca sort
 
-const int arrSize = 35;
-
-
+const int arrSize = 35, dzielSize=20000;
 
 using namespace std;
 
@@ -54,17 +52,47 @@ void rozklad (int liczba, int czynnik[])
             next++;
         }
     }
-    czynnik[next++]=liczba;
+    if(liczba>1)czynnik[next++]=liczba;
     czynnik[next]=-1;
 }
 
-int pow(int podstawa, int potega){
+int pow(int podstawa, int potega)
+{
     int odp = 1;
-    for(int i=0;i<potega;i++)odp = odp*podstawa;
+    for(int i=0; i<potega; i++)odp = odp*podstawa;
     return odp;
 }
 
-void dzielniki (int rozklad[])
+bool czy_palindrom(int  n)
+{
+    int i=0,l=-1,kopian = n;
+    bool o = true;
+
+    while (n>0)
+    {
+        n=n/10;
+        l++;
+    }
+
+    n = kopian;
+
+    while (i<=(l/2) && o == true)
+    {
+        int prawy=n/pow(10,i) % 10;
+        int lewy = n / ( pow(10, l-i) ) % 10;
+
+        if (  lewy == prawy )
+        {
+            i++;
+        }
+        else
+            o = false;
+    }
+
+    return o;
+}
+
+int dzielniki (int rozklad[], int odp[])
 {
     int s=0,i=0,d=1;
     int skladniki[arrSize];
@@ -87,38 +115,70 @@ void dzielniki (int rozklad[])
     }
     d=d*(potega[s]+1);
     int dzielnikiLiczby[d+2];
-    for(int i=0;i<d;i++){
+    for(int i=0; i<d; i++)
+    {
         int dzielnik = 1, ii = i,wskaznik = 0;
-        while(ii>0){
+        while(ii>0)
+        {
             dzielnik = dzielnik * pow(skladniki[wskaznik], ii%(potega[wskaznik]+1));
-            wskaznik++;
             ii=ii/(potega[wskaznik]+1);
+            wskaznik++;
         }
         dzielnikiLiczby[i]=dzielnik;
     }
     sort(dzielnikiLiczby,dzielnikiLiczby+d);
     dzielnikiLiczby[d]=-1;
-    for(int i=0;i<d;i++){
+    int wskaznik=0, suma=0;
+    for(int i=0; i<=d; i++)
+    {
         if(dzielnikiLiczby[i]!=dzielnikiLiczby[i+1])
-            cout<<" "<<dzielnikiLiczby[i];
+        {
+            odp[wskaznik]=dzielnikiLiczby[i];
+            suma+=dzielnikiLiczby[i];
+            wskaznik++;
+        }
     }
+    odp[wskaznik]=-1;
+    return suma;
 }
 
 int main()
 {
-    int a,czynnikiLiczby[arrSize];;
+    int a,czynnikiLiczby[arrSize], dzielnikiLiczby[dzielSize];
     cout<<"Hello, pass number: ";
     cin >> a;
-    while(a<=0){
+    while(a<=0)
+    {
         cout<<"Your number is not positive, pass NATURAL number: ";
         cin >> a;
     }
     rozklad(a, czynnikiLiczby);
-    cout<<"\n"<<a<<" jest ";
-    if(czynnikiLiczby[1]==-1)cout<<"pierwsza.\n";
-    else cout<<"zlozona.\n";
-    cout<<"Dzielniki "<<a<<":";
-    dzielniki(czynnikiLiczby);
-    cout<<"."<<endl;
+    // liczba pierwsza
+    cout<<"\n"<<a<<" is ";
+    if(czynnikiLiczby[1]==-1)cout<<"prime.\n\n";
+    else cout<<"composite.\n\n";
+    int suma = dzielniki(czynnikiLiczby, dzielnikiLiczby);
+    //liczba doskonala
+    cout<<"Liczba "<<a<<(suma-a+1 == a?" ":" nie ")<<"jest doskonala\n\n";
+    //liczba palindromiczna
+    cout<<"Liczba "<<a<<(czy_palindrom(a)?" ":" nie ")<<"jest palindromem\n\n";
+    //czynniki pierwsze liczby
+    cout<<"Czynniki pierwsze liczby "<<a<<":  "<<czynnikiLiczby[0];
+    int iter=1;
+    while(czynnikiLiczby[iter]!=-1)
+    {
+        cout<<", "<<czynnikiLiczby[iter];
+        iter++;
+    }
+    cout<<".\n\n";
+    //dzielniki naturlane liczby
+    cout<<"Dzielniki "<<a<<":  1";
+    iter=1;
+    while(dzielnikiLiczby[iter]!=-1)
+    {
+        cout<<", "<<dzielnikiLiczby[iter];
+        iter++;
+    }
+    cout<<".";
 
 }
