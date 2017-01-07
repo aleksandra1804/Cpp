@@ -2,7 +2,7 @@
 
 Projekt Grupowy - III LO Wroclaw
 
-Pawel Dietrich, Aleksandra Domaga³a, Oliwia Kropidlowska.
+Pawel Dietrich, Aleksandra Domagala, Oliwia Kropidlowska.
 
 https://github.com/DietPawel/Cpp
 
@@ -11,85 +11,114 @@ Styczen 2017 (c)
 */
 
 #include <iostream>
-#include <vector>
+#include <algorithm>
+
+const int arrSize = 35;
+
+
 
 using namespace std;
 
-int sumVectorElements(vector < int > input){
+int sumTableElements(int input[], int size)
+{
     int sum;
-    for(int i=0;i<input.size();i++)
+    for(int i=0; i<size; i++)
         sum += input[i];
     return sum;
 }
 
-//int roundSqrt(int liczba){
-//    int upper=46341,lower=0; // upper to pierwiastek zaokraglony w gore od maksymalnej wartosci int.
-//    while (upper != lower)
-//    {
-//        int m = (upper+lower)/2;
-//        if (m*m >= liczba)
-//          upper  = m;
-//        else
-//          lower = m+1;
-//    }
-//    return upper;
-//}
+int roundSqrt(int liczba)
+{
+    int upper=46341,lower=0; // upper to pierwiastek zaokraglony w gore od maksymalnej wartosci int.
+    while (upper != lower)
+    {
+        int m = (upper+lower)/2;
+        if (m*m >= liczba)
+            upper  = m;
+        else
+            lower = m+1;
+    }
+    return upper;
+}
 
-vector < int > sitoEratostenesa(int maksimum){
-    vector < bool > liczby (maksimum+5);
-    vector < int > odp;
-    for(int i=2;i<=maksimum;i++){
-        if(liczby[i])continue;
-        odp.push_back(i);
-        for(int y=2*i;y<=maksimum;y+=i){
-            liczby[y]=true;
+void rozklad (int liczba, int czynnik[])
+{
+    int next = 0;
+    int pierwiastek=roundSqrt(liczba);
+    for(int i=2; i<pierwiastek; i++)
+    {
+        while (liczba%i==0)
+        {
+            czynnik[next]=i;
+            liczba=liczba/i;
+            next++;
         }
     }
+    czynnik[next++]=liczba;
+    czynnik[next]=-1;
+}
+
+int pow(int podstawa, int potega){
+    int odp = 1;
+    for(int i=0;i<potega;i++)odp = odp*podstawa;
     return odp;
 }
 
-vector <int> rozklad (int liczba)
+void dzielniki (int rozklad[])
 {
-    vector < int > czynniki;
-    vector < int > pierwsze = sitoEratostenesa(liczba);
-    int d=0;
-    while(liczba>1){
-        if (liczba%pierwsze[d]==0){
-            czynniki.push_back(pierwsze[d]);
-            liczba=liczba/pierwsze[d];
+    int s=0,i=0,d=1;
+    int skladniki[arrSize];
+    int potega[arrSize];
+    skladniki[0]=rozklad[0];
+    potega[0]=1;
+    while(rozklad[++i]>0)
+    {
+        if(rozklad[i]==rozklad[i-1])
+        {
+            potega[s]++;
         }
         else
-            d=d+1;
-    }
-    return czynniki;
-}
-
-vector <int> dzielniki (vector <int> rozklad)
-{
-    int s=0;
-    vector < int > skladniki;
-    vector < int > liczbaSkl;
-    skladniki.push_back(rozklad[0]);
-    liczbaSkl.push_back(1);
-    for(int i=1;i<rozklad.size();i++){
-        if(rozklad[i]==rozklad[i-1]){
-                liczbaSkl[s]++;
-        }else{
-            skladniki.push_back(rozklad[i]);
-            liczbaSkl.push_back(1);
+        {
+            d=d*(potega[s]+1);
             s++;
+            skladniki[s]=rozklad[i];
+            potega[s]=1;
         }
     }
-    vector < int > odp;
-    //WIP
-    return odp;
+    d=d*(potega[s]+1);
+    int dzielnikiLiczby[d+2];
+    for(int i=0;i<d;i++){
+        int dzielnik = 1, ii = i,wskaznik = 0;
+        while(ii>0){
+            dzielnik = dzielnik * pow(skladniki[wskaznik], ii%(potega[wskaznik]+1));
+            wskaznik++;
+            ii=ii/(potega[wskaznik]+1);
+        }
+        dzielnikiLiczby[i]=dzielnik;
+    }
+    sort(dzielnikiLiczby,dzielnikiLiczby+d);
+    dzielnikiLiczby[d]=-1;
+    for(int i=0;i<d;i++){
+        if(dzielnikiLiczby[i]!=dzielnikiLiczby[i+1])
+            cout<<" "<<dzielnikiLiczby[i];
+    }
 }
 
-int main(){
-    int a;
+int main()
+{
+    int a,czynnikiLiczby[arrSize];;
+    cout<<"Hello, pass number: ";
     cin >> a;
-    dzielniki(rozklad(a));
-
-
+    while(a<=0){
+        cout<<"Your number is not positive, pass NATURAL number: ";
+        cin >> a;
+    }
+    rozklad(a, czynnikiLiczby);
+    cout<<"\n"<<a<<" jest ";
+    if(czynnikiLiczby[1]==-1)cout<<"pierwsza.\n";
+    else cout<<"zlozona.\n";
+    cout<<"Dzielniki "<<a<<":";
+    dzielniki(czynnikiLiczby);
+    cout<<"."<<endl;
 
 }
