@@ -145,25 +145,25 @@ int dzielniki (int rozklad[], int odp[])
 int main()
 {
     int a,czynnikiLiczby[arrSize], dzielnikiLiczby[dzielSize];
-    cout<<"Hello, pass number: ";
+    cout<<"Witam, podaj liczbe: ";
     cin >> a;
     while(a<=0)
     {
-        cout<<"Your number is not positive, pass NATURAL number: ";
+        cout<<"Twoja liczba nie jest dodatnia, podaj liczbe NATURALNA: ";
         cin >> a;
     }
     rozklad(a, czynnikiLiczby);
     // liczba pierwsza
-    cout<<"\n"<<a<<" is ";
-    if(czynnikiLiczby[1]==-1)cout<<"prime.\n\n";
-    else cout<<"composite.\n\n";
+    cout<<"\n""Liczba "<<a<<" jest ";
+    if(czynnikiLiczby[1]==-1)cout<<"pierwsza.\n\n";
+    else cout<<"zlozona.\n\n";
     int suma = dzielniki(czynnikiLiczby, dzielnikiLiczby);
     //liczba doskonala
-    cout<<"Liczba "<<a<<(suma-a+1 == a?" ":" nie ")<<"jest doskonala\n\n";
+    cout<<"Liczba "<<a<<(suma-a+1 == a?" ":" nie ")<<"jest doskonala.\n\n";
     //liczba palindromiczna
-    cout<<"Liczba "<<a<<(czy_palindrom(a)?" ":" nie ")<<"jest palindromem\n\n";
+    cout<<"Liczba "<<a<<(czy_palindrom(a)?" ":" nie ")<<"jest palindromem.\n\n";
     //czynniki pierwsze liczby
-    cout<<"Czynniki pierwsze liczby "<<a<<":  "<<czynnikiLiczby[0];
+    cout<<"Czynniki pierwsze liczby "<<a<<": "<<czynnikiLiczby[0];
     int iter=1;
     while(czynnikiLiczby[iter]!=-1)
     {
@@ -172,13 +172,13 @@ int main()
     }
     cout<<".\n\n";
     //dzielniki naturlane liczby
-    cout<<"Dzielniki "<<a<<":  1";
+    cout<<"Dzielniki "<<a<<": 1";
     iter=1;
     while(dzielnikiLiczby[iter]!=-1)
     {
         cout<<", "<<dzielnikiLiczby[iter];
         iter++;
     }
-    cout<<".";
+    cout<<".\n";
 
 }
