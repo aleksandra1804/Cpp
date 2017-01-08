@@ -17,14 +17,6 @@ const int arrSize = 35, dzielSize=20000;
 
 using namespace std;
 
-int sumTableElements(int input[], int size)
-{
-    int sum;
-    for(int i=0; i<size; i++)
-        sum += input[i];
-    return sum;
-}
-
 int roundSqrt(int liczba)
 {
     int upper=46341,lower=0; // upper to pierwiastek zaokraglony w gore od maksymalnej wartosci int.
@@ -37,6 +29,27 @@ int roundSqrt(int liczba)
             lower = m+1;
     }
     return upper;
+}
+
+int pow(int podstawa, int potega)
+{
+    int odp = 1;
+    for(int i=0; i<potega; i++)odp = odp*podstawa;
+    return odp;
+}
+
+bool czy_palindrom(int  n)
+{
+    int m=0, kopian = n;
+
+    while (n>0)
+    {
+        m=m*10+n%10;
+        n=n/10;
+    }
+
+
+    return m==kopian;
 }
 
 void rozklad (int liczba, int czynnik[])
@@ -56,34 +69,7 @@ void rozklad (int liczba, int czynnik[])
     czynnik[next]=-1;
 }
 
-int pow(int podstawa, int potega)
-{
-    int odp = 1;
-    for(int i=0; i<potega; i++)odp = odp*podstawa;
-    return odp;
-}
-
-bool czy_palindrom(int  n)
-{
-    int i=1, m=0, kopian = n;
-    bool o = false;
-
-    while (n>0)
-    {
-        m=n%10*i;
-        n=n/10;
-        i=i*10;
-    }
-
-    n = kopian;
-
-    if (m=n)
-        o = true;
-
-    return o;
-}
-
-int dzielniki (int rozklad[], int odp[])
+int dzielniki (int rozklad[], int odp[]) // zwraca sume dzielnikow
 {
     int s=0,i=0,d=1;
     int skladniki[arrSize];
