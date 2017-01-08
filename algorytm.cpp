@@ -65,22 +65,16 @@ int pow(int podstawa, int potega)
 
 bool czy_palindrom(int  n)
 {
-    int i=1, m=0, kopian = n;
-    bool o = false;
+    int m=0, kopian = n;
 
     while (n>0)
     {
-        m=n%10*i;
+        m=m*10+n%10;
         n=n/10;
-        i=i*10;
     }
 
-    n = kopian;
 
-    if (m=n)
-        o = true;
-
-    return o;
+    return m==kopian;
 }
 
 int dzielniki (int rozklad[], int odp[])
