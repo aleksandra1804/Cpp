@@ -65,29 +65,20 @@ int pow(int podstawa, int potega)
 
 bool czy_palindrom(int  n)
 {
-    int i=0,l=-1,kopian = n;
-    bool o = true;
+    int i=1, m=0, kopian = n;
+    bool o = false;
 
     while (n>0)
     {
+        m=n%10*i;
         n=n/10;
-        l++;
+        i=i*10;
     }
 
     n = kopian;
 
-    while (i<=(l/2) && o == true)
-    {
-        int prawy=n/pow(10,i) % 10;
-        int lewy = n / ( pow(10, l-i) ) % 10;
-
-        if (  lewy == prawy )
-        {
-            i++;
-        }
-        else
-            o = false;
-    }
+    if (m=n)
+        o = true;
 
     return o;
 }
