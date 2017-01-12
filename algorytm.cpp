@@ -31,10 +31,10 @@ int roundSqrt(int liczba)
     return upper;
 }
 
-int pow(int podstawa, int potega)
+int pow(int podstawa, int wykladnik)
 {
     int odp = 1;
-    for(int i=0; i<potega; i++)odp = odp*podstawa;
+    for(int i=0; i<wykladnik; i++)odp = odp*podstawa;
     return odp;
 }
 
