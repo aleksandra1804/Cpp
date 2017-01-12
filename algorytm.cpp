@@ -56,7 +56,7 @@ void rozklad (int liczba, int czynnik[])
 {
     int next = 0;
     int pierwiastek=roundSqrt(liczba);
-    for(int i=2; i<pierwiastek; i++)
+    for(int i=2; i<pierwiastek; i++)//ew i*i<liczba
     {
         while (liczba%i==0)
         {
@@ -105,7 +105,7 @@ int dzielniki (int rozklad[], int odp[]) // zwraca sume dzielnikow
     }
     sort(dzielnikiLiczby,dzielnikiLiczby+d);
     dzielnikiLiczby[d]=-1;
-    int wskaznik=0, suma=0;
+    int wskaznik=0, suma=1;
     for(int i=0; i<=d; i++)
     {
         if(dzielnikiLiczby[i]!=dzielnikiLiczby[i+1])
@@ -136,7 +136,7 @@ int main()
     else cout<<"zlozona.\n\n";
     int suma = dzielniki(czynnikiLiczby, dzielnikiLiczby);
     //liczba doskonala
-    cout<<"Liczba "<<a<<(suma-a+1 == a?" ":" nie ")<<"jest doskonala.\n\n";
+    cout<<"Liczba "<<a<<(suma-a == a?" ":" nie ")<<"jest doskonala.\n\n";
     //liczba palindromiczna
     cout<<"Liczba "<<a<<(czy_palindrom(a)?" ":" nie ")<<"jest palindromem.\n\n";
     //czynniki pierwsze liczby
